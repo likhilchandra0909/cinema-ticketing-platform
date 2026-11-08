@@ -1,6 +1,32 @@
-﻿node_modules/
+﻿# Dependencies
+node_modules/
+
+# Environment secrets
 .env
 .env.*
 !.env.example
+
+# Build and test output
 coverage/
 dist/
+
+# Generated Prisma files
+/src/generated/prisma
+
+# Temporary files
+test-db.js
+prisma.config.v8-backup.ts
+*.log
+
+# Editor and AI tool configuration
+.vscode/
+.idea/
+.agents/
+.claude/
+.cursor/
+.devin/
+.windsurf/
+
+# Operating system files
+.DS_Store
+Thumbs.db

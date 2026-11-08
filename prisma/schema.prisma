@@ -1,0 +1,62 @@
+
+generator client {
+  provider = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Show {
+  id          Int      @id @default(autoincrement())
+  movieTitle  String
+  screenName  String
+  startsAt    DateTime
+  createdAt   DateTime @default(now())
+
+  seats       Seat[]
+
+  @@index([startsAt])
+}
+
+model Seat {
+  id          Int      @id @default(autoincrement())
+  showId      Int
+  seatNumber  String
+  category    SeatCategory @default(GENERAL)
+  price       Decimal  @db.Decimal(10, 2)
+
+  show        Show     @relation(fields: [showId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+
+  @@unique([showId, seatNumber])
+}
+
+model Reservation {
+  id             Int              @id @default(autoincrement())
+  bookingCode    String           @unique
+  seatId         Int
+  status         ReservationStatus @default(HOLD)
+  expiresAt      DateTime?
+  activeSeatKey  String?          @unique
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  seat           Seat             @relation(fields: [seatId], references: [id], onDelete: Restrict)
+
+  @@index([status, expiresAt])
+}
+
+enum SeatCategory {
+  GENERAL
+  PREMIUM
+  RECLINER
+}
+
+enum ReservationStatus {
+  HOLD
+  CONFIRMED
+  CANCELLED
+  EXPIRED
+}

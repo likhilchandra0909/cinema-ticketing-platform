@@ -2,8 +2,9 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-
+const showRoutes = require("./routes/showRoutes");
 const app = express();
+const reservationRoutes = require("./routes/reservationRoutes");
 
 // Security and middleware
 app.use(helmet());
@@ -26,5 +27,6 @@ app.get("/health", (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
-
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/shows", showRoutes);
 module.exports = app;
