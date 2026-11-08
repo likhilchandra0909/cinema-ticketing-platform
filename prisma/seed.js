@@ -1,5 +1,4 @@
-
-const prisma = require("../src/database/prisma");
+﻿const prisma = require("../src/database/prisma");
 
 async function main() {
   const movies = [
@@ -38,7 +37,10 @@ async function main() {
 }
 
 main()
-  .catch(console.error)
+  .catch((error) => {
+    console.error("Seeding failed:", error);
+    process.exitCode = 1;
+  })
   .finally(async () => {
     await prisma.$disconnect();
   });
