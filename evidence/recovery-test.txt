@@ -1,0 +1,16 @@
+﻿RESTART AND RECOVERY TEST
+Date: 08 November 2026
+
+Command: docker restart cinema-api
+Result: Successful
+
+Health check:
+GET https://localhost:8443/health
+Response: HTTP 200, status UP
+
+Container status after restart:
+- cinema-api: Up (healthy)
+- cinema-nginx: Up (healthy)
+- cinema-postgres: Up (healthy)
+
+Conclusion: API recovered successfully without restarting the database or Nginx.

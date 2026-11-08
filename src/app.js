@@ -5,11 +5,13 @@ const helmet = require("helmet");
 const showRoutes = require("./routes/showRoutes");
 const app = express();
 const reservationRoutes = require("./routes/reservationRoutes");
+const requestLogger = require("./middleware/requestLogger");
 
 // Security and middleware
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 // Root endpoint
 app.get("/", (req, res) => {

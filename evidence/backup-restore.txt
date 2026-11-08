@@ -1,0 +1,18 @@
+﻿BACKUP AND RESTORE VERIFICATION
+Date: 08 November 2026
+
+Backup file: cinema-backup-20261108-195848.dump
+Backup format: PostgreSQL custom format
+
+Restore target: cinema_restore_test
+Restore command: pg_restore -U cinema_user -d cinema_restore_test --no-owner
+
+Verification results:
+- Show records: 2
+- Seat records: 10
+- Reservation records: 9
+- Tables restored: Show, Seat, Reservation, _prisma_migrations
+
+Status: SUCCESS
+The backup was restored and record counts were verified in a separate database.
+The original cinema_ticketing database was not modified.
