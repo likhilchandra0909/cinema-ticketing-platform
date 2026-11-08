@@ -1,10 +1,14 @@
-﻿name: Cinema Ticketing CI
+﻿name: Cinema Ticketing CI/CD
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   test-and-build:
@@ -30,32 +34,62 @@ jobs:
       NODE_ENV: test
 
     steps:
+      # 1. Checkout source code
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Configure Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # 4. Generate Prisma Client
       - name: Generate Prisma Client
         run: npx prisma generate --config prisma7.config.ts
 
+      # 5. Apply database migrations
       - name: Apply database migrations
         run: npx prisma migrate deploy --config prisma7.config.ts
 
+      # 6. Insert sample cinema data
       - name: Seed database
         run: node prisma/seed.js
 
+      # 7. Run automated tests
       - name: Run automated tests
         run: npm test
 
+      # 8. Check production dependencies
       - name: Audit production dependencies
         run: npm audit --omit=dev
 
+      # 9. Build Docker image
       - name: Build Docker image
         run: docker build -t cinema-ticketing-platform:${{ github.sha }} .
+
+      # 10. Login to GitHub Container Registry
+      - name: Login to GHCR
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 11. Tag and publish Docker image
+      - name: Publish Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY,,}"
+
+          docker tag cinema-ticketing-platform:${GITHUB_SHA} "$IMAGE_NAME:${GITHUB_SHA}"
+          docker tag cinema-ticketing-platform:${GITHUB_SHA} "$IMAGE_NAME:latest"
+
+          docker push "$IMAGE_NAME:${GITHUB_SHA}"
+          docker push "$IMAGE_NAME:latest"
