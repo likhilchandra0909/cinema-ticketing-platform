@@ -1,0 +1,15 @@
+﻿DOCKER IMAGE PUBLISHING EVIDENCE
+
+Registry: GitHub Container Registry (GHCR)
+Package: ghcr.io/likhilchandra0909/cinema-ticketing-platform
+Visibility: Public
+
+Latest tag: latest
+Commit tag: 34048fee6eabd760d71f448090b4d9591f8e0489
+
+Previous image tag:
+36f66e43a03fa76c2e815606c5eac89cf03146e8
+
+CI/CD workflow: Cinema Ticketing CI/CD
+Workflow result: SUCCESS
+Commit: 34048fe
