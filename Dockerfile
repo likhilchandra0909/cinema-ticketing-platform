@@ -19,7 +19,7 @@ COPY src ./src
 
 # Stage 2: Production image
 FROM node:24-alpine AS production
-
+RUN npm install --global npm@latest
 WORKDIR /app
 
 ENV NODE_ENV=production

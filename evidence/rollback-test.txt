@@ -1,0 +1,19 @@
+﻿DOCKER IMAGE ROLLBACK AND RECOVERY
+
+Date: 10 November 2026
+
+Previous image:
+ghcr.io/likhilchandra0909/cinema-ticketing-platform:36f66e43a03fa76c2e815606c5eac89cf03146e8
+
+Previous image successfully deployed and verified.
+API health endpoint returned status UP over HTTPS.
+
+Latest application restored:
+cinema-ticketing-platform-api
+
+API health after restoration: UP
+
+Database and persistent volume preserved.
+Nginx reverse proxy remained operational.
+
+Final result: SUCCESS

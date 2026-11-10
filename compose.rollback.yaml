@@ -1,0 +1,5 @@
+﻿services:
+  api:
+    image: ghcr.io/likhilchandra0909/cinema-ticketing-platform:36f66e43a03fa76c2e815606c5eac89cf03146e8
+    pull_policy: never
+    build: !reset null
